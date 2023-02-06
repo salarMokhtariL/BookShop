@@ -1,0 +1,204 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="{% url 'store' %}">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Checkout</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div class="mb-4">
+                    <form id="form">
+
+                        <div id="user-info">
+                            <h4 class="font-weight-semi-bold mb-4">Buyer Details</h4>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label>First Name</label>
+                                    <input class="form-control" type="text" name="fname" placeholder="John">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Last Name</label>
+                                    <input class="form-control" type="text" name="lname" placeholder="Doe">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>E-mail</label>
+                                    <input class="form-control" type="text" name="email"
+                                           placeholder="example@email.com">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Mobile No</label>
+                                    <input class="form-control" type="text" name="phone-number"
+                                           placeholder="+123 456 789">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="shipping-info">
+                            <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
+                            <div class="col-md-15 form-group">
+                                <label>Address Line</label>
+                                <input class="form-control" type="text" name="address"
+                                       placeholder="Tabriz, East Azerbaijan, Iran">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">,
+                                    <label>State</label>
+                                    <input class="form-control" type="text" name="state" placeholder="East Azerbaijan">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>City</label>
+                                    <input class="form-control" type="text" name="city" placeholder="Tabriz">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>ZIP Code</label>
+                                    <input class="form-control" type="text" name="zipcode" placeholder="1234567">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="newaccount">
+                                        <label class="custom-control-label" for="newaccount">Create an account</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="font-weight-medium mb-3">Products</h5>
+                        {% for item in items %}
+                            <div class="d-flex justify-content-between">
+                                <p>{{ item.product.title }}</p>
+                                <p>${{ item.product.price }}</p>
+                            </div>
+                        {% endfor %}
+                        <hr class="mt-0">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Subtotal</h6>
+                            <h6 class="font-weight-medium">$ {{ order.get_cart_total|floatformat:2 }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium">$ 0</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold">$ {{ order.get_cart_total|floatformat:2 }}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Payment</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
+                                <label class="custom-control-label" for="paypal">Paypal</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
+                                <label class="custom-control-label" for="directcheck">Direct Check</label>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
+                                <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent hidden">
+                        <button id="make-payment" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
+                            Place Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var shipping = '{{order.shipping}}'
+        var total = '{{order.get_cart_total}}'
+
+        if (shipping === 'False') {
+            document.getElementById('shipping-info').innerHTML = ''
+        }
+
+        if (user != 'AnonymousUser') {
+            document.getElementById('user-info').innerHTML = ''
+        }
+
+        if (shipping === 'False' && user != 'AnonymousUser') {
+            //Hide entire form if user is logged in and shipping is false
+            document.getElementById('form-wrapper').classList.add("hidden");
+            //Show payment if logged in user wants to buy an item that does not require shipping
+            document.getElementById('payment-info').classList.remove("hidden");
+        }
+
+        var form = document.getElementById('form')
+        form.addEventListener('submit', function (e) {
+            e.preventDefault()
+            console.log('Form Submitted...')
+            document.getElementById('form-button').classList.add("hidden");
+            document.getElementById('payment-info').classList.remove("hidden");
+        })
+
+        document.getElementById('make-payment').addEventListener('click', function (e) {
+            submitFormData()
+        })
+
+        function submitFormData() {
+            console.log('Payment button clicked')
+
+            var userFormData = {
+                'name': null,
+                'email': null,
+                'total': total,
+            }
+
+            var shippingInfo = {
+                'address': null,
+                'city': null,
+                'state': null,
+                'zipcode': null,
+            }
+
+            if (shipping != 'False') {
+                shippingInfo.address = form.address.value
+                shippingInfo.city = form.city.value
+                shippingInfo.state = form.state.value
+                shippingInfo.zipcode = form.zipcode.value
+            }
+
+            if (user === 'AnonymousUser') {
+                userFormData.name = form.name.value
+                userFormData.email = form.email.value
+            }
+
+            console.log('Shipping Info:', shippingInfo)
+            console.log('User Info:', userFormData)
+        }
+    </script>
+{% endblock content %}

@@ -1,0 +1,100 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Author</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="{% url 'store' %}">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Author</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5 pb-3">
+            {% for author in author %}
+                <div class="col-lg-4 col-md-12 col-sm-18 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                             style="height: 350px">
+                            <img class="img-fluid w-100" src="{{ author.imageURL }}" alt="">
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+
+                            <h6 class="text-truncate mb-3">{{ author.name }}</h6>
+                        </div>
+                        <div class="card-body border-left border-right text-left ">
+
+                            <h6><i class="bi bi-envelope-at"></i> {{ author.email }}</h6>
+                            <h6> Rank : {{ author.rank }}</h6>
+                        </div>
+
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-book text-primary mr-1"></i>View
+                                Books</a>
+                            <a href="" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-link text-primary mr-1"></i>Author Links</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">The request form written</span></h2>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col-lg-7 mb-5">
+                <div class="Submit request">
+                    <div id="success"></div>
+                    <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                        <div class="control-group">
+                            <input type="text" class="form-control" id="name" placeholder="Your Name"
+                                   required="required" data-validation-required-message="Please enter your name"/>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            <input type="email" class="form-control" id="email" placeholder="Your Email"
+                                   required="required" data-validation-required-message="Please enter your email"/>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            <input type="text" class="form-control" id="subject" placeholder="Field of write"
+                                   required="required" data-validation-required-message="Field of write"/>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            <textarea class="form-control" rows="6" id="message" placeholder="Message"
+                                      required="required"
+                                      data-validation-required-message="Please enter your message"></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="col-lg-5 mb-5">
+                <h5 class="font-weight-semi-bold mb-3">Get In Touch</h5>
+                <p>Justo sed diam ut sed amet duo amet lorem amet stet sea ipsum, sed duo amet et. Est elitr dolor
+                    elitr erat sit sit. Dolor diam et erat clita ipsum justo sed.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+{% endblock %}
